@@ -1,3 +1,6 @@
 name = "nn-ai-worker-v2"
 main = "worker.js"
-compatibility_date = "2026-06-27"
+compatibility_date = "2026-06-28"
+
+[vars]
+OPENAI_API_KEY = "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"
