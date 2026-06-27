@@ -28,10 +28,15 @@ export default {
       });
 
       const data = await response.json();
-      console.log("OpenAI raw response:", data); // ←ログで確認
+      console.log("OpenAI raw response:", data);
 
-      const aiReply =
-        data.output?.[0]?.content?.[0]?.text || "⚠️ AI応答が取得できませんでした";
+      // 安全にテキストを取り出す
+      let aiReply = "⚠️ AI応答が取得できませんでした";
+      if (data.output && data.output[0] && data.output[0].content) {
+        aiReply = data.output[0].content[0].text;
+      } else if (data.choices && data.choices[0].message) {
+        aiReply = data.choices[0].message.content;
+      }
 
       return new Response(JSON.stringify({ reply: aiReply }), {
         headers: {
