@@ -1,8 +1,7 @@
 export default {
   async fetch(request, env) {
-    const url = new URL(request.url);   // ←これが必要
+    const url = new URL(request.url);
 
-    // CORSプリフライト対応
     if (request.method === "OPTIONS") {
       return new Response(null, {
         headers: {
@@ -29,7 +28,10 @@ export default {
       });
 
       const data = await response.json();
-      const aiReply = data.output[0].content[0].text;
+      console.log("OpenAI raw response:", data); // ←ログで確認
+
+      const aiReply =
+        data.output?.[0]?.content?.[0]?.text || "⚠️ AI応答が取得できませんでした";
 
       return new Response(JSON.stringify({ reply: aiReply }), {
         headers: {
